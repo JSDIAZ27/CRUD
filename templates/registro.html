@@ -9,17 +9,32 @@
 <body>
     <div class="section">
         <form method="post">
-            <input  type="text" name="nombre"  placeholder="ingrese su nombre">
+            <input  type="text" name="nombre"  placeholder="ingrese su nombre" required>
 
-            <input  type="email" name="email"  placeholder="ingrese su email">
-            <button tupe="submit">registrar usuario</button>
+            <input  type="email" name="email"  placeholder="ingrese su email" required>
+            <button type="submit">registrar usuario</button>
         
 
 
 
 
     </form>
+        <table>
+            <tr>  <th>id usuario </th>  <th> nombre del usuario </th>  <th> correo del usuario  </th>  </tr>
+            {% for persona in usuarios %}
+                <tr>
+                    <td> {{persona.id}} </td>
+                    <td> {{persona.nombre}} </td>
+                    <td> {{persona.correo}} </td>
+                    <td> <a href="/?borrar={{ persona.id}}">Eliminar</a></td>
+                </tr>
+
+            {% endfor %}
+        </table>
+
+     
+
 </div>
-{{ usuarios}}
+
 </body>
 </html>
