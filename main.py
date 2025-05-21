@@ -14,9 +14,9 @@ def crud():
     global id_contador 
 
     if request.method=='POST':
-     nombre = request.form.get("nombre")
+     nombre = request.form.get("nombre")#guarda en una variable de python lo que el usurio entrega al form
      email = request.form.get("email")
-     usuarios.append({"id":id_contador,"nombre del usuario":nombre, "correo": email }) #insertando un usuario 
+     usuarios.append({"id":id_contador,"nombre_del_usuario":nombre, "correo": email }) #insertando un usuario 
      id_contador+=1
      return redirect(url_for("crud"))
 
@@ -31,12 +31,34 @@ def crud():
         return redirect(url_for("crud"))#llamar al nombre de la funcion  
 
 
-        return render_template("registro.html")
-    
-
-
-
     return render_template("registro.html", usuarios=usuarios)#lista que entregamos al html
+    
+ #Ruta de actualizacion de datos del usuario
+@app.route("/update/<int:id>", methods=['GET', 'POST']) #Ruta con parametros
+def update(id):
+
+    estudiante_a_editar=''
+    #TODO: identificar el diccionario del usuario con el id a entregar
+    for diccionario in usuarios:
+        if diccionario['id']==id:
+            estudiante_a_editar=diccionario
+            print("el estudiante a editar es: ", estudiante_a_editar)
+            break
+
+    if request.method=='POST':
+        #TODO: actualiar el diccionario del estudiante con los datos del fomulario   
+        estudiante_a_editar['nombre_del_usuario']=request.form.get('nombre')
+        estudiante_a_editar['correo']=request.form.get('email')
+        return redirect(url_for("crud"))
+    
+    #si despues de recorrrer toda la lista, no encontramos el id integrado 
+    if estudiante_a_editar=='':
+        return f"no existe el usuario con id: {id}"#salgo de la funcion
+
+    return render_template("editar.html",estudiante_a_editar=estudiante_a_editar)
+
+
+
 
 
 
